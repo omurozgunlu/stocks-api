@@ -1,18 +1,27 @@
 import { StockDTO } from "../dto/stock.dto";
+import axios from "axios";
 import debug from "debug";
 
 const log: debug.IDebugger = debug("app:in-memory");
 
 class StocksDao {
-  stocks: Array<StockDTO> = [];
+  url: string;
   constructor() {
-    log("Created new instance of StocksDao"); //read json
+    log("Created new instance of StocksDao");
+    this.url = "https://jsonmock.hackerrank.com/api/stocks";
   }
   async getStockByDate(date: string) {
-    return; //implement find by date
+    const result = await this._getFromUrl(date);
+    const data = result.data && result.data.length > 0 ? result.data[0] : null;
+    if (data) delete data.date;
+    if (!result || !data) return null;
+    else {
+      return data;
+    }
   }
-  readStocksFile() {
-    return; //read file
+  async _getFromUrl(date: string) {
+    const data = await axios(this.url + "?date=" + date);
+    return await data.data;
   }
 }
 export default new StocksDao();
