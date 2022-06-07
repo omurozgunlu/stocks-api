@@ -8,9 +8,6 @@ class StocksDao {
   constructor() {
     log("Created new instance of StocksDao"); //read json
   }
-  async getAllStocks() {
-    return this.stocks;
-  }
   async getStockByDate(date: string) {
     return; //implement find by date
   }

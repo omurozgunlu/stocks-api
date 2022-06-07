@@ -1,4 +1,6 @@
 import { CommonRoutesConfig } from "../common/common.routes.config";
+import stocksController from "./controllers/stocks.controller";
+import stocksMiddleware from "./middleware/stocks.middleware";
 import express from "express";
 
 export class StocksRoutes extends CommonRoutesConfig {
@@ -7,10 +9,8 @@ export class StocksRoutes extends CommonRoutesConfig {
   }
   configureRoutes() {
     this.app
-      .route(`/users`)
-      .get((req: express.Request, res: express.Response) => {
-        res.status(200).send(`List of users`);
-      });
+      .route(`/stocks`)
+      .get(stocksMiddleware.validateDateQuery, stocksController.getStockByDate);
     return this.app;
   }
 }
